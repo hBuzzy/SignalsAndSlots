@@ -18,6 +18,8 @@ class Player : public QObject {
  private:
   int maxHealth_;
   int currentHealth_;
+
+  // Добавлена новая строка комментария и пустая строка
 };
 
 #endif  // PLAYER_H
