@@ -5,18 +5,20 @@
 #include <QPointer>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QSlider>
 
 #include "enemy.h"
 #include "player.h"
 #include "ui_widget.h"
+#include "userprogressbar.h"
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->setupUi(this);
 
-  Player *player = new Player(100);
+  Player *player = new Player(100, 10);
   Enemy *enemy = new Enemy(10);
 
-  QProgressBar *healthBar = new QProgressBar;
+  UserProgressBar *healthBar = new UserProgressBar(50);
   int minValue = 0;
   healthBar->setRange(minValue, player->GetMaxHealth());
   healthBar->setValue(player->GetMaxHealth());
@@ -28,12 +30,25 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QPointer<QPushButton> damageButton = new QPushButton;
   damageButton->setText("Нанести урон");
 
+  QPointer<QPushButton> recoverButton = new QPushButton;
+  recoverButton->setText("Восстановить здоровье");
+
+  QPointer<QSlider> healthSlider = new QSlider(Qt::Horizontal);
+  healthSlider->setPageStep(1);
+  healthSlider->setValue(40);
+
+  QPointer<QLabel> healthValueCaption = new QLabel;
+  healthValueCaption->setText(QString::number(healthSlider->value()));
+
   QWidget *widget = new QWidget;
   QGridLayout *widgetLayout = new QGridLayout;
 
-  widgetLayout->addWidget(healthBarCaption, 0, 0);
-  widgetLayout->addWidget(healthBar, 0, 1);
-  widgetLayout->addWidget(damageButton, 1, 0, 1, 2);
+  widgetLayout->addWidget(healthValueCaption, 0, 0, 1, 2);
+  widgetLayout->addWidget(healthSlider, 0, 1, 1, 2);
+  widgetLayout->addWidget(healthBarCaption, 1, 0);
+  widgetLayout->addWidget(healthBar, 1, 1);
+  widgetLayout->addWidget(damageButton, 2, 0, 1, 2);
+  widgetLayout->addWidget(recoverButton, 3, 0, 1, 2);
 
   widget->setLayout(widgetLayout);
 
@@ -53,20 +68,19 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
   connect(damageButton, &QPushButton::clicked, enemy,
           &Enemy::OnDamageButtonClicked);
+  connect(recoverButton, &QPushButton::clicked, player,
+          &Player::OnRecoverButtonClicked);
   connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
   connect(player, &Player::HealthChanged, healthBar, &QProgressBar::setValue);
-
-  const QString dangerStyle =
-      "QProgressBar::chunk {background: #F44336; Width: 20px; margin: 0.5px;"
-      "border: 1px solid black; border-radius:8px; Border-Radius: 4px;} "
-      "QProgressBar { text-align: center; font-size:14px; border-radius:8px; "
-      "color:black;}";
-
-  const QString normalStyle =
-      "QProgressBar::chunk {background: #009688; Width: 20px; margin: 0.5px; "
-      "border: 1px solid black; border-radius:8px; Border-Radius: 4px;} "
-      "QProgressBar { text-align: center; font-size:14px; border-radius:8px; "
-      "color:black;}";
+  connect(healthSlider, &QSlider::valueChanged, [healthValueCaption](int value) {
+      healthValueCaption->setText(QString::number(value));
+  });
+  connect(healthSlider, &QSlider::valueChanged, healthBar,
+            &UserProgressBar::SetRequiredValue);
+  connect(healthBar, &UserProgressBar::RequiredValueChanged, healthBar,
+            &UserProgressBar::UpdateColor);
+  connect(player, &Player::HealthChanged, healthBar,
+            &UserProgressBar::UpdateColor);
 }
 
 Widget::~Widget() { delete ui; }

@@ -6,7 +6,7 @@
 class Player : public QObject {
   Q_OBJECT
  public:
-  explicit Player(int health, QObject *parent = nullptr);
+  explicit Player(int health, int recoverHealth, QObject *parent = nullptr);
   int GetMaxHealth() const;
 
  signals:
@@ -14,12 +14,13 @@ class Player : public QObject {
 
  public slots:
   void TakeDamage(int damage);
+  void RecoverHealth();
+  void OnRecoverButtonClicked();
 
  private:
   int maxHealth_;
   int currentHealth_;
-  // Добавлена новая строка комментария и пустая строка
-  // Добавлена новая строка комментария и пустая строка 2
+  int recoverHealth_;
 };
 
 #endif  // PLAYER_H
