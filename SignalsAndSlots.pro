@@ -12,12 +12,14 @@ SOURCES += \
     enemy.cpp \
     main.cpp \
     player.cpp \
-    widget.cpp
+    widget.cpp \
+    bar.cpp
 
 HEADERS += \
     enemy.h \
     player.h \
-    widget.h
+    widget.h \
+    bar.h
 
 FORMS += \
     widget.ui

@@ -5,6 +5,7 @@
 
 class Player : public QObject {
   Q_OBJECT
+
  public:
   explicit Player(int health, QObject *parent = nullptr);
   int GetMaxHealth() const;
@@ -14,6 +15,8 @@ class Player : public QObject {
 
  public slots:
   void TakeDamage(int damage);
+  void TakeRestore(int restore);
+  void SetHealth(int health);
 
  private:
   int maxHealth_;

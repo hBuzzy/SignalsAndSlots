@@ -10,9 +10,11 @@ class Enemy : public QObject {
 
  signals:
   void MakeDamage(int gamage);
+  void MakeRestore(int gamage);
 
  public slots:
   void OnDamageButtonClicked();
+  void OnRestoreButtonClicked();
 
  private:
   int damage_;
