@@ -11,11 +11,13 @@ CONFIG += c++17
 SOURCES += \
     enemy.cpp \
     main.cpp \
+    newProgressBar.cpp \
     player.cpp \
     widget.cpp
 
 HEADERS += \
     enemy.h \
+    newProgressBar.h \
     player.h \
     widget.h
 

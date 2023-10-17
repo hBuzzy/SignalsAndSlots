@@ -9,7 +9,7 @@ class Enemy : public QObject {
   explicit Enemy(int damage, QObject *parent = nullptr);
 
  signals:
-  void MakeDamage(int gamage);
+  void MakeDamage(int damage);
 
  public slots:
   void OnDamageButtonClicked();
