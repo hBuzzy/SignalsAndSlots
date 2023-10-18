@@ -28,12 +28,19 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QPointer<QPushButton> damageButton = new QPushButton;
   damageButton->setText("Нанести урон");
 
+  QPointer<QPushButton> healthButton = new QPushButton;
+  healthButton->setText("Восстановить здоровье");
+
+
   QWidget *widget = new QWidget;
   QGridLayout *widgetLayout = new QGridLayout;
 
   widgetLayout->addWidget(healthBarCaption, 0, 0);
   widgetLayout->addWidget(healthBar, 0, 1);
   widgetLayout->addWidget(damageButton, 1, 0, 1, 2);
+  widgetLayout->addWidget(healthButton, 4, 0, 4, 2);
+
+
 
   widget->setLayout(widgetLayout);
 
@@ -51,10 +58,14 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   mainLayout->addWidget(widget);
   mainLayout->addItem(bottomSpacer);
 
+
   connect(damageButton, &QPushButton::clicked, enemy,
           &Enemy::OnDamageButtonClicked);
   connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
   connect(player, &Player::HealthChanged, healthBar, &QProgressBar::setValue);
+
+  connect(healthButton, &QPushButton::clicked, enemy,
+            &Enemy::OnHealthButtonClicked);
 
   const QString dangerStyle =
       "QProgressBar::chunk {background: #F44336; Width: 20px; margin: 0.5px;"
@@ -67,6 +78,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
       "border: 1px solid black; border-radius:8px; Border-Radius: 4px;} "
       "QProgressBar { text-align: center; font-size:14px; border-radius:8px; "
       "color:black;}";
+  healthBar ->setStyleSheet(normalStyle);
+
 }
 
 Widget::~Widget() { delete ui; }

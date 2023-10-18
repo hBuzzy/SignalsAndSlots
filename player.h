@@ -12,8 +12,10 @@ class Player : public QObject {
  signals:
   void HealthChanged(int health);
 
+
  public slots:
   void TakeDamage(int damage);
+  void LoseDamage(int damage);
 
  private:
   int maxHealth_;
