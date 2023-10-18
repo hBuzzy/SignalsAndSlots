@@ -1,9 +1,10 @@
 #include "userprogressbar.h"
 
-UserProgressBar::UserProgressBar(int requiredValue, QProgressBar *parent) : QProgressBar{parent} {
+UserProgressBar::UserProgressBar(int requiredValue, QProgressBar *parent)
+    : QProgressBar{parent} {
   requiredValue_ = requiredValue;
   setRange(0, 100);
-  setStyleSheet(normalStyle);
+  setStyleSheet(kNormalStyle);
 }
 
 void UserProgressBar::SetRequiredValue(int requiredValue) {
@@ -14,7 +15,7 @@ void UserProgressBar::SetRequiredValue(int requiredValue) {
 
 void UserProgressBar::UpdateColor() {
   if (value() < requiredValue_)
-      setStyleSheet(dangerStyle);
+    setStyleSheet(kDangerStyle);
   else
-      setStyleSheet(normalStyle);
+    setStyleSheet(kNormalStyle);
 }
