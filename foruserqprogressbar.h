@@ -4,11 +4,11 @@
 #include <QProgressBar>
 #include <QObject>
 
-class forUserQProgressBar : public QProgressBar
+class ForUserQProgressBar : public QProgressBar
 {
     Q_OBJECT
 public:
-    explicit forUserQProgressBar(QProgressBar *parent = nullptr);
+    explicit ForUserQProgressBar(QProgressBar *parent = nullptr);
 
 signals:
 

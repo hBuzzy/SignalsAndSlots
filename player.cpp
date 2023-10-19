@@ -15,7 +15,7 @@ void Player::TakeDamage(int damage) {
   emit HealthChanged(currentHealth_);
 }
 
-void Player::LoseDamage(int damage) {
+void Player::HealthRevolted(int damage) {
 
 
   currentHealth_+= damage;

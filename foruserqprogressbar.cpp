@@ -1,6 +1,5 @@
 #include "foruserqprogressbar.h"
 
-forUserQProgressBar::forUserQProgressBar(QObject *parent) : QObject(parent)
-{
+ForUserQProgressBar::ForUserQProgressBar(QObject *parent) : QObject(parent){
 
 }

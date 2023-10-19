@@ -3,19 +3,18 @@
 #include <QProgressBar>
 #include <QPainter>
 
-class CustomProgressBar : public QProgressBar
-{
+class CustomProgressBar : public QProgressBar{
     Q_OBJECT
 public:
     CustomProgressBar(QWidget *parent = nullptr);
 
 private:
-    int state;
-    int limit;
+    int _state;
+    int _limit;
 
 public slots:
-    void setState(int state);
-    void setLimit(int limit);
+    void setState(int _state);
+    void setLimit(int _limit);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

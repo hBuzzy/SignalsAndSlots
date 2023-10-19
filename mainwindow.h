@@ -16,9 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void onHitButtonClicked();
-    void onHealButtonClicked();
-    void onLimitChanged(int value) const;
+    void OnHitButtonClicked();
+    void OnHealButtonClicked();
+    void OnLimitChanged(int value) const;
 
 private:
     Ui::MainWindow *ui;
