@@ -29,7 +29,6 @@ class UserProgressBar : public QProgressBar {
 
   int requiredValue_;
   int currentValue_;
-  QObject* signalHandler;
 };
 
 #endif  // USERPROGRESSBAR_H
