@@ -6,15 +6,17 @@
 class NewProgressBar : public QProgressBar{
     Q_OBJECT
 public:
-    explicit NewProgressBar(int minHealth, QWidget *parent = nullptr)
-        :QProgressBar(parent) { minHealth_ = minHealth; };
+    explicit NewProgressBar(int triggerValue, QWidget *parent = nullptr)
+        :QProgressBar(parent) { triggerValue_ = triggerValue; };
 public slots:
-   void ChangeColor(int health);
-   void setMinHealth(int minHealth);
+   void SetTriggerValue(int triggerValue);
+    void SetCurrentValue(int currentValue);
 signals:
-   void MinHealthChanged(int minHealth);
+   void TriggerValueChanged(int triggerValue);
 public:
-   int minHealth_;
+   int triggerValue_;
+private slots:
+    void ChangeColor(int health);
 };
 
 #endif // NEWPROGRESSBAR_H

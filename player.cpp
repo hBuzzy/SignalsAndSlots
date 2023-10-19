@@ -16,7 +16,7 @@ void Player::TakeDamage(int damage) {
   emit HealthChanged(currentHealth_);
 }
 
-void Player::OnRestoreButtonClicked() {
+void Player::TakeRestore() {
   if (currentHealth_ == maxHealth_) return;
 
   currentHealth_ += healing_;

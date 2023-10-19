@@ -17,12 +17,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
   Player *player = new Player(100, 25);
   Enemy *enemy = new Enemy(10);
-  int minHealth = 25;
+  int triggerValue_ = 25;
 
-//  создаем элементы виджета
-
-  NewProgressBar *healthBar = new NewProgressBar(minHealth);
-  healthBar->ChangeColor(player->GetCurrentHealth());
+  NewProgressBar *healthBar = new NewProgressBar(triggerValue_);
+  healthBar->SetCurrentValue(player->GetCurrentHealth());
   int minValue = 0;
   healthBar->setRange(minValue, player->GetMaxHealth());
   healthBar->setValue(player->GetMaxHealth());
@@ -31,8 +29,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QPointer<QLabel> healthBarCaption = new QLabel;
   healthBarCaption->setText("Полоска здоровья");
 
-  QPointer<QLabel> minHealthCaption = new QLabel;
-  minHealthCaption->setText(QString::number(minHealth));
+  QPointer<QLabel> triggerValueCaption = new QLabel;
+  triggerValueCaption->setText(QString::number(triggerValue_));
 
   QPointer<QPushButton> damageButton = new QPushButton;
   damageButton->setText("Нанести урон");
@@ -40,15 +38,13 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QPointer<QPushButton> restoreButton = new QPushButton;
   restoreButton->setText("Лечиться");
 
-  QPointer<QSlider> minHealthSlider = new QSlider(Qt::Horizontal);
-  minHealthSlider->setRange(0, 100);
-  minHealthSlider->setPageStep(5);
-  minHealthSlider->setTickInterval(5);
-  minHealthSlider->setValue(25);
-  minHealthSlider->setTickPosition(QSlider::TicksBothSides);
-  QObject::connect(minHealthSlider, SIGNAL(valueChanged(int)), minHealthCaption, SLOT(setNum(int)));
-
-//  создаем виджет и крепим на него элементы
+  QPointer<QSlider> triggerValueSlider = new QSlider(Qt::Horizontal);
+  triggerValueSlider->setRange(0, 100);
+  triggerValueSlider->setPageStep(5);
+  triggerValueSlider->setTickInterval(5);
+  triggerValueSlider->setValue(25);
+  triggerValueSlider->setTickPosition(QSlider::TicksBothSides);
+  connect(triggerValueSlider, SIGNAL(valueChanged(int)), triggerValueCaption, SLOT(setNum(int)));
 
   QWidget *widget = new QWidget;
   QGridLayout *widgetLayout = new QGridLayout;
@@ -57,12 +53,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   widgetLayout->addWidget(healthBar, 0, 1);
   widgetLayout->addWidget(damageButton, 1, 0, 1, 2);
   widgetLayout->addWidget(restoreButton, 2, 0, 1, 2);
-  widgetLayout->addWidget(minHealthCaption, 3, 0);
-  widgetLayout->addWidget(minHealthSlider, 3, 1);
+  widgetLayout->addWidget(triggerValueCaption, 3, 0);
+  widgetLayout->addWidget(triggerValueSlider, 3, 1);
 
   widget->setLayout(widgetLayout);
-
-//  красиво располагаем элементы н виджете
 
   int spacerWidth = 1;
   int spacerHeight = 1;
@@ -78,16 +72,13 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   mainLayout->addWidget(widget);
   mainLayout->addItem(bottomSpacer);
 
-//  связываем действия между собой
-
   connect(damageButton, &QPushButton::clicked, enemy,
           &Enemy::OnDamageButtonClicked);
   connect(restoreButton, &QPushButton::clicked, player,
-          &Player::OnRestoreButtonClicked);
+          &Player::TakeRestore);
   connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
-  connect(player, &Player::HealthChanged, healthBar, &NewProgressBar::setValue);
-  connect(player, &Player::HealthChanged, healthBar, &NewProgressBar::ChangeColor);
-  connect(minHealthSlider, SIGNAL(valueChanged(int)), healthBar, SLOT(setMinHealth(int)));
+  connect(player, &Player::HealthChanged, healthBar, &NewProgressBar::SetCurrentValue);
+  connect(triggerValueSlider, &QSlider::valueChanged, healthBar, &NewProgressBar::SetTriggerValue);
 }
 
 Widget::~Widget() { delete ui; }
