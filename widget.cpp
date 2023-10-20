@@ -16,12 +16,12 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->setupUi(this);
 
   int maxHealth = 100;
-  int demage = 10;
+  int damage = 10;
   int restore = 5;
+  int criticalHealth = 50;
 
   Player *player = new Player(maxHealth);
-  Enemy *enemy = new Enemy(demage);
-  Enemy *myenemy = new Enemy(restore);
+  Enemy *enemy = new Enemy(damage, restore);
 
   QProgressBar *healthBar = new QProgressBar;
   int minValue = 0;
@@ -29,19 +29,20 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   healthBar->setValue(player->GetMaxHealth());
   healthBar->setTextVisible(false);
 
-  Bar *myhealthBar = new Bar;
-  myhealthBar->setRange(minValue, player->GetMaxHealth());
-  myhealthBar->setValue(player->GetMaxHealth());
-  myhealthBar->setTextVisible(false);
+  Bar *myHealthBar = new Bar;
+  myHealthBar->setRange(minValue, player->GetMaxHealth());
+  myHealthBar->setValue(player->GetMaxHealth());
+  myHealthBar->setTextVisible(false);
+  myHealthBar->SetCriticalHealth(criticalHealth);
 
   QPointer<QLabel> healthBarCaption = new QLabel;
   healthBarCaption->setText("Полоска здоровья");
 
-  QSlider *myhealthSlider = new QSlider(Qt::Horizontal);
-  myhealthSlider->setValue(player->GetMaxHealth());
+  QSlider *myHealthSlider = new QSlider(Qt::Horizontal);
+  myHealthSlider->setValue(criticalHealth);
 
-  QPointer<QLabel> myhealthSliderCaption = new QLabel;
-  myhealthSliderCaption->setNum(player->GetMaxHealth());
+  QPointer<QLabel> myCriticalHealth = new QLabel;
+  myCriticalHealth->setNum(criticalHealth);
 
   QPointer<QPushButton> damageButton = new QPushButton;
   damageButton->setText("Нанести урон");
@@ -52,10 +53,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QWidget *widget = new QWidget;
   QGridLayout *widgetLayout = new QGridLayout;
 
-  widgetLayout->addWidget(myhealthSliderCaption, 0, 0);
-  widgetLayout->addWidget(myhealthSlider, 0, 1);
+  widgetLayout->addWidget(myCriticalHealth, 0, 0);
+  widgetLayout->addWidget(myHealthSlider, 0, 1);
   widgetLayout->addWidget(healthBarCaption, 1, 0);
-  widgetLayout->addWidget(myhealthBar, 1, 1);
+  widgetLayout->addWidget(myHealthBar, 1, 1);
   widgetLayout->addWidget(damageButton, 2, 0, 1, 2);
   widgetLayout->addWidget(restoreButton, 3, 0, 1, 2);
   widget->setLayout(widgetLayout);
@@ -78,20 +79,16 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
           &Enemy::OnDamageButtonClicked);
   connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
 
-  connect(restoreButton, &QPushButton::clicked, myenemy,
+  connect(restoreButton, &QPushButton::clicked, enemy,
           &Enemy::OnRestoreButtonClicked);
-  connect(myenemy, &Enemy::MakeRestore, player, &Player::TakeRestore);
+  connect(enemy, &Enemy::MakeRestore, player, &Player::TakeRestore);
 
-  connect(myhealthSlider, &QSlider::valueChanged, player, &Player::SetHealth);
-  connect(myhealthSlider, &QSlider::valueChanged,
-          [myhealthSliderCaption](int value) {
-            myhealthSliderCaption->setNum(value);
-          });
-  connect(myhealthBar, &QProgressBar::valueChanged, player, &Player::SetHealth);
-  connect(myhealthBar, &QProgressBar::valueChanged, myhealthBar,
-          &Bar::SetColor);
-  connect(player, &Player::HealthChanged, myhealthBar, &QProgressBar::setValue);
-  connect(player, &Player::HealthChanged, myhealthSlider, &QSlider::setValue);
+  connect(myHealthSlider, &QSlider::valueChanged, myHealthBar,
+          &Bar::SetCriticalHealth);
+  connect(myHealthSlider, &QSlider::valueChanged,
+          [myCriticalHealth](int value) { myCriticalHealth->setNum(value); });
+  connect(myHealthBar, &Bar::valueChanged, myHealthBar, &Bar::SetColor);
+  connect(player, &Player::HealthChanged, myHealthBar, &QProgressBar::setValue);
 }
 
 Widget::~Widget() { delete ui; }

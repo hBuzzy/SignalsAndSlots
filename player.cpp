@@ -25,9 +25,4 @@ void Player::TakeRestore(int restore) {
   emit HealthChanged(currentHealth_);
 }
 
-void Player::SetHealth(int health) {
-  currentHealth_ = health;
-  emit HealthChanged(currentHealth_);
-}
-
 int Player::GetMaxHealth() const { return maxHealth_; }
