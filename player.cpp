@@ -1,6 +1,7 @@
 #include "player.h"
 
-Player::Player(int health, QObject *parent) : QObject{parent} {
+
+Player::Player(int health,QObject *parent) : QObject{parent} {
   maxHealth_ = health;
   currentHealth_ = maxHealth_;
 }
@@ -15,4 +16,11 @@ void Player::TakeDamage(int damage) {
   emit HealthChanged(currentHealth_);
 }
 
+void Player::Heal() {
+  currentHealth_ += 10;
+  if (currentHealth_ >= maxHealth_) currentHealth_ = maxHealth_;
+  emit HealthChanged(currentHealth_);
+}
+
 int Player::GetMaxHealth() const { return maxHealth_; }
+int Player::GetCurrentHealth() { return currentHealth_; }
