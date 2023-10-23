@@ -8,10 +8,12 @@
 class Bar: public QProgressBar {
     Q_OBJECT
 public:
-    Bar();
-
+explicit Bar(QString danStyle,QString norStyle,QProgressBar *parent = nullptr);
 public slots:
- void SetColor(int health, int percent);
+ void SetColor(int health, int percent,const QString danStyle,const QString norStyle);
+  private:
+   QString danStyle_;
+   QString norStyle_;
 };
 
 #endif // BAR_H

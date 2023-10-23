@@ -10,14 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     bar.cpp \
-    enemy.cpp \
+    god.cpp \
     main.cpp \
     player.cpp \
     widget.cpp
 
 HEADERS += \
     bar.h \
-    enemy.h \
+    god.h \
     player.h \
     widget.h
 

@@ -19,7 +19,7 @@ class Widget : public QWidget {
 
  private:
   Ui::Widget *ui;
-  Bar *myhealthBar;
+  Bar *healthBar;
   QSlider *myhealthSlider;
 };
 #endif // WIDGET_H
