@@ -9,12 +9,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    custom_progress_bar.cpp \
     enemy.cpp \
     main.cpp \
     player.cpp \
     widget.cpp
 
 HEADERS += \
+    custom_progress_bar.h \
     enemy.h \
     player.h \
     widget.h
