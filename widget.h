@@ -2,6 +2,8 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QLabel>
+#include "customprogressbar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -17,5 +19,10 @@ class Widget : public QWidget
 
  private:
   Ui::Widget *ui;
+  CustomProgressBar *customProgressBar;
+  QLabel *thresholdLabel;
+  void updateThreshold(int value);
 };
+
+
 #endif // WIDGET_H

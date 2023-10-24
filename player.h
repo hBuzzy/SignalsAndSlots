@@ -13,7 +13,8 @@ class Player : public QObject {
   void HealthChanged(int health);
 
  public slots:
-  void TakeDamage(int damage);
+   void TakeDamage(int damage);
+   void Heal(int amount); // Добавляем слот для восстановления здоровья
 
  private:
   int maxHealth_;
