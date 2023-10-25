@@ -4,18 +4,20 @@
 #include <QObject>
 
 class Enemy : public QObject {
-  Q_OBJECT
- public:
-  explicit Enemy(int damage, QObject *parent = nullptr);
+    Q_OBJECT
+public:
+    explicit Enemy(int damage, QObject *parent = nullptr);
 
- signals:
-  void MakeDamage(int gamage);
+signals:
+    void MakeDamage(int damage);
+    void MakeHeal(int damage);
 
- public slots:
-  void OnDamageButtonClicked();
+public slots:
+    void OnDamageButtonClicked();
+    void OnHealButtonClicked();
 
- private:
-  int damage_;
+private:
+    int damage_;
 };
 
 #endif  // ENEMY_H

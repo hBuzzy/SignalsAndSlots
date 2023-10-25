@@ -9,13 +9,14 @@ QT_END_NAMESPACE
 
 class Widget : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  Widget(QWidget *parent = nullptr);
-  ~Widget();
+public:
+    Widget(QWidget *parent = nullptr);
+    ~Widget();
 
- private:
-  Ui::Widget *ui;
+private:
+    Ui::Widget *ui;
 };
+
 #endif // WIDGET_H

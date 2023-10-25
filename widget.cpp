@@ -5,56 +5,83 @@
 #include <QPointer>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QSlider>
 
 #include "enemy.h"
 #include "player.h"
+#include "customprogressbar.h"
 #include "ui_widget.h"
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
-  ui->setupUi(this);
+    ui->setupUi(this);
 
-  Player *player = new Player(100);
-  Enemy *enemy = new Enemy(10);
+    Player *player = new Player(200);
+    Enemy *enemy = new Enemy(10);
 
-  QProgressBar *healthBar = new QProgressBar;
-  int minValue = 0;
-  healthBar->setRange(minValue, player->GetMaxHealth());
-  healthBar->setValue(player->GetMaxHealth());
-  healthBar->setTextVisible(false);
+    CustomProgressBar *healthBar = new CustomProgressBar;
+    int minValue = 0;
+    healthBar->setRange(minValue, player->GetMaxHealth());
+    healthBar->setValue(player->GetMaxHealth());
+    healthBar->setTextVisible(false);
+    healthBar->SetThreshold(player->GetMaxHealth()/2);
 
-  QPointer<QLabel> healthBarCaption = new QLabel;
-  healthBarCaption->setText("Полоска здоровья");
+    QPointer<QLabel> healthBarCaption = new QLabel;
+    healthBarCaption->setText("Полоска здоровья");
 
-  QPointer<QPushButton> damageButton = new QPushButton;
-  damageButton->setText("Нанести урон");
+    QPointer<QPushButton> damageButton = new QPushButton;
+    damageButton->setText("Нанести урон");
 
-  QWidget *widget = new QWidget;
-  QGridLayout *widgetLayout = new QGridLayout;
+    QPointer<QPushButton> healButton = new QPushButton;
+    healButton->setText("Восстановить здоровье");
 
-  widgetLayout->addWidget(healthBarCaption, 0, 0);
-  widgetLayout->addWidget(healthBar, 0, 1);
-  widgetLayout->addWidget(damageButton, 1, 0, 1, 2);
+    QWidget *widget = new QWidget;
+    QGridLayout *widgetLayout = new QGridLayout;
 
-  widget->setLayout(widgetLayout);
+    QLabel *labelHealth = new QLabel("Максимальное здоровье: " + QString::number(player->GetMaxHealth()));
+    QSlider *slider = new QSlider;
+    slider->setValue(player->GetMaxHealth()/2);
+    slider->setRange(0, player->GetMaxHealth());
+    QLabel *label = new QLabel("Порог здоровья: " + QString::number(player->GetMaxHealth()/2));
 
-  int spacerWidth = 1;
-  int spacerHeight = 1;
-  QSpacerItem *topSpacer = new QSpacerItem(
-      spacerWidth, spacerHeight, QSizePolicy::Minimum, QSizePolicy::Expanding);
-  QSpacerItem *bottomSpacer = new QSpacerItem(
-      spacerWidth, spacerHeight, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    widgetLayout->addWidget(labelHealth);
+    widgetLayout->addWidget(healthBarCaption, 1, 0);
+    widgetLayout->addWidget(healthBar, 1, 1);
+    widgetLayout->addWidget(damageButton, 2, 0, 1, 2);
+    widgetLayout->addWidget(healButton, 3, 0, 1, 2);
+    widgetLayout->addWidget(slider);
+    widgetLayout->addWidget(label);
 
-  QVBoxLayout *mainLayout = new QVBoxLayout;
-  setLayout(mainLayout);
+    widget->setLayout(widgetLayout);
 
-  mainLayout->addItem(topSpacer);
-  mainLayout->addWidget(widget);
-  mainLayout->addItem(bottomSpacer);
+    int spacerWidth = 1;
+    int spacerHeight = 1;
+    QSpacerItem *topSpacer = new QSpacerItem(
+        spacerWidth, spacerHeight, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    QSpacerItem *bottomSpacer = new QSpacerItem(
+        spacerWidth, spacerHeight, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-  connect(damageButton, &QPushButton::clicked, enemy,
-          &Enemy::OnDamageButtonClicked);
-  connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
-  connect(player, &Player::HealthChanged, healthBar, &QProgressBar::setValue);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+
+    mainLayout->addItem(topSpacer);
+    mainLayout->addWidget(widget);
+    mainLayout->addItem(bottomSpacer);
+
+    connect(player, &Player::HealthChanged, healthBar, &CustomProgressBar::setValue);
+
+    connect(slider, &QSlider::valueChanged,this, [label](int value) {
+        label->setText("Порог здоровья: " + QString::number(value));
+    });
+
+    connect(slider, &QSlider::valueChanged, healthBar, &CustomProgressBar::SetThreshold);
+
+    connect(damageButton, &QPushButton::clicked, enemy,&Enemy::OnDamageButtonClicked);
+    connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
+
+    connect(healButton, &QPushButton::clicked, enemy,&Enemy::OnHealButtonClicked);
+    connect(enemy, &Enemy::MakeHeal, player, &Player::TakeHealth);
+
+    connect(player, &Player::HealthChanged, healthBar, &CustomProgressBar::setValue);
 }
 
 Widget::~Widget() { delete ui; }

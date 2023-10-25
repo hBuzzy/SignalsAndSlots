@@ -4,20 +4,21 @@
 #include <QObject>
 
 class Player : public QObject {
-  Q_OBJECT
- public:
-  explicit Player(int health, QObject *parent = nullptr);
-  int GetMaxHealth() const;
+    Q_OBJECT
+public:
+    explicit Player(int health, QObject *parent = nullptr);
+    int GetMaxHealth() const;
 
- signals:
-  void HealthChanged(int health);
+signals:
+    void HealthChanged(int health);
 
- public slots:
-  void TakeDamage(int damage);
+public slots:
+    void TakeDamage(int damage);
+    void TakeHealth(int damage);
 
- private:
-  int maxHealth_;
-  int currentHealth_;
+private:
+    int maxHealth_;
+    int currentHealth_;
 };
 
 #endif  // PLAYER_H
