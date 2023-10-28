@@ -20,10 +20,12 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
     CustomProgressBar *healthBar = new CustomProgressBar;
     int minValue = 0;
+    int numbMiddle = 2;
+
     healthBar->setRange(minValue, player->GetMaxHealth());
     healthBar->setValue(player->GetMaxHealth());
     healthBar->setTextVisible(false);
-    healthBar->SetThreshold(player->GetMaxHealth()/2);
+    healthBar->SetThreshold(player->GetMaxHealth() / numbMiddle);
 
     QPointer<QLabel> healthBarCaption = new QLabel;
     healthBarCaption->setText("Полоска здоровья");
@@ -39,7 +41,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
     QLabel *labelHealth = new QLabel("Максимальное здоровье: " + QString::number(player->GetMaxHealth()));
     QSlider *slider = new QSlider;
-    slider->setValue(player->GetMaxHealth()/2);
+    slider->setValue(player->GetMaxHealth() / numbMiddle);
     slider->setRange(0, player->GetMaxHealth());
     QLabel *label = new QLabel("Порог здоровья: " + QString::number(player->GetMaxHealth()/2));
 
@@ -69,7 +71,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
     connect(player, &Player::HealthChanged, healthBar, &CustomProgressBar::setValue);
 
-    connect(slider, &QSlider::valueChanged,this, [label](int value) {
+    connect(slider, &QSlider::valueChanged, this, [label](int value) {
         label->setText("Порог здоровья: " + QString::number(value));
     });
 
