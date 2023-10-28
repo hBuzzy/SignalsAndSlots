@@ -8,13 +8,13 @@ class CustomProgressBar : public QProgressBar {
 
 public:
     CustomProgressBar(QWidget *parent = nullptr);
-    void setColorThreshold(int threshold);
+    void SetColorThreshold(int threshold);
 
 public slots:
-    void updateColor(int currentValue);
+    void UpdateColor(int currentValue);
 
 private:
-    void setColor(int currentValue);
+    void SetColor(int currentValue);
     int colorThreshold_;
 };
 

@@ -23,15 +23,14 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   Enemy *enemy = new Enemy(10);
   Potion *potion = new Potion(10);
 
-  CustomProgressBar *healthBar = new CustomProgressBar;
+  healthBar_ = new CustomProgressBar;
   int minValue = 0;
-  healthBar->setRange(minValue, player->GetMaxHealth());
-  healthBar->setValue(player->GetMaxHealth());
-  healthBar->setTextVisible(false);
+  healthBar_->setRange(minValue, player->GetMaxHealth());
+  healthBar_->setValue(player->GetMaxHealth());
+  healthBar_->setTextVisible(false);
 
-
-  QPointer<QLabel> thresholdLabel = new QLabel;
-  thresholdLabel->setText("Порог: 50");
+  thresholdLabel_ = new QLabel;
+  thresholdLabel_->setText("Порог: 50");
 
   QPointer<QSlider> thresholdSlider = new QSlider;
   thresholdSlider->setRange(minValue, player->GetMaxHealth()); // Установите диапазон по вашему усмотрению
@@ -49,12 +48,12 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QGridLayout *widgetLayout = new QGridLayout;
 
   widgetLayout->addWidget(healthBarCaption, 0, 0);
-  widgetLayout->addWidget(healthBar, 0, 1);
+  widgetLayout->addWidget(healthBar_, 0, 1);
   widgetLayout->addWidget(damageButton, 1, 0, 1, 2);
   widgetLayout->addWidget(healButton, 2, 0, 1, 2);
 
   widgetLayout->addWidget(thresholdSlider, 3, 0, 1, 2);
-  widgetLayout->addWidget(thresholdLabel, 4, 0, 1, 2);
+  widgetLayout->addWidget(thresholdLabel_, 4, 0, 1, 2);
   widget->setLayout(widgetLayout);
 
   int spacerWidth = 1;
@@ -67,7 +66,6 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QVBoxLayout *mainLayout = new QVBoxLayout;
   setLayout(mainLayout);
 
-
   mainLayout->addItem(topSpacer);
   mainLayout->addWidget(widget);
   mainLayout->addItem(bottomSpacer);
@@ -75,12 +73,14 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   connect(damageButton, &QPushButton::clicked, enemy,
           &Enemy::OnDamageButtonClicked);
   connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
-  connect(player, &Player::HealthChanged, healthBar, &CustomProgressBar::setValue);
+  connect(player, &Player::HealthChanged, healthBar_,
+          &CustomProgressBar::setValue);
   connect(healButton, &QPushButton::clicked, player, &Player::Heal);
   connect(healButton, &QPushButton::clicked, potion,
           &Potion::OnHealButtonClicked);
   connect(potion, &Potion::MakeHeal, player, &Player::Heal);
-  connect(thresholdSlider, &QSlider::valueChanged, this, &Widget::updateThreshold);
+  connect(thresholdSlider, &QSlider::valueChanged, this,
+          &Widget::UpdateThreshold);
 
   const QString dangerStyle =
       "QProgressBar::chunk {background: #F44336; Width: 20px; margin: 0.5px;"
@@ -95,9 +95,9 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
       "color:black;}";
 }
 
-void Widget::updateThreshold(int value) {
-    customProgressBar->setColorThreshold(value);
-    thresholdLabel->setText(QString::number(value));
+void Widget::UpdateThreshold(int value) {
+    customProgressBar_->SetColorThreshold(value);
+    // thresholdLabel_->setText(QString::number(value)); Почему не работает?
 }
 
 Widget::~Widget() { delete ui; }

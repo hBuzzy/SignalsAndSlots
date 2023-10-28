@@ -1,7 +1,6 @@
 #ifndef POTION_H
 #define POTION_H
 
-
 #include <QObject>
 
 class Potion : public QObject {

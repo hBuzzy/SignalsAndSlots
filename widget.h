@@ -19,10 +19,13 @@ class Widget : public QWidget
 
  private:
   Ui::Widget *ui;
-  CustomProgressBar *customProgressBar;
-  QLabel *thresholdLabel;
-  void updateThreshold(int value);
-};
+  CustomProgressBar *customProgressBar_;
+  QLabel *thresholdLabel_;
+  CustomProgressBar *healthBar_;
 
+ private slots:
+    void UpdateThreshold(int value);
+
+};
 
 #endif // WIDGET_H
