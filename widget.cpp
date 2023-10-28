@@ -12,7 +12,7 @@
 #include "player.h"
 #include "ui_widget.h"
 
-#include "customprogressbar.h" // Добавьте этот заголовок
+#include "customprogressbar.h"
 
 
 
@@ -33,7 +33,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   thresholdLabel_->setText("Порог: 50");
 
   QPointer<QSlider> thresholdSlider = new QSlider;
-  thresholdSlider->setRange(minValue, player->GetMaxHealth()); // Установите диапазон по вашему усмотрению
+  thresholdSlider->setRange(minValue, player->GetMaxHealth());
 
   QPointer<QLabel> healthBarCaption = new QLabel;
   healthBarCaption->setText("Полоска здоровья");
