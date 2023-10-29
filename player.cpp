@@ -1,7 +1,7 @@
 #include "player.h"
 
 
-Player::Player(int health,QObject *parent) : QObject{parent} {
+Player::Player(int health, QObject *parent) : QObject{parent} {
   maxHealth_ = health;
   currentHealth_ = maxHealth_;
 }

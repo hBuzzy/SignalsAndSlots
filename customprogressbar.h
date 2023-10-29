@@ -11,14 +11,12 @@ public:
     CustomProgressBar(QWidget *parent = nullptr);
 
 public slots:
-    void updateColorAndValue(int health);
-    void heal(int amount);
-
-signals:
-    void thresholdChanged(int threshold);
+    void UpdateColorAndValue(int value);
+    void Heal(int amount);
+    void SetThreshold(int value);
 
 private:
-    int threshold;
+    int threshold_;
 };
 
 #endif
