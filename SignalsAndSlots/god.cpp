@@ -1,8 +1,8 @@
 #include "god.h"
 
-God::God(int damage, int restore,QObject *parent) : QObject(parent) {
+God::God(int damage, int restore, QObject *parent) : QObject(parent) {
   damage_ = damage;
-  restore_=restore;
+  restore_ = restore;
 }
 
 void God::OnDamageButtonClicked() { emit MakeDamage(damage_); }

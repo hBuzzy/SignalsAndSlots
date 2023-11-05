@@ -8,6 +8,7 @@ Player::Player(int health, QObject *parent) : QObject{parent} {
 void Player::TakeDamage(int damage) {
   if (currentHealth_ == 0) return;
   currentHealth_ -= damage;
+
   if (currentHealth_ < 0) currentHealth_ = 0;
   emit HealthChanged(currentHealth_);
 }

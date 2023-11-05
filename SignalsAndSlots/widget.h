@@ -1,12 +1,15 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
-#include "bar.h"
-#include <QSlider>
 #include <QDebug>
+#include <QSlider>
+#include <QWidget>
+
+#include "bar.h"
 QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
+namespace Ui {
+class Widget;
+}
 QT_END_NAMESPACE
 
 class Widget : public QWidget {
@@ -19,7 +22,7 @@ class Widget : public QWidget {
 
  private:
   Ui::Widget *ui;
-  Bar *healthBar;
-  QSlider *myhealthSlider;
+  Bar *healthBar_;
+  QSlider *myhealthSlider_;
 };
-#endif // WIDGET_H
+#endif  // WIDGET_H

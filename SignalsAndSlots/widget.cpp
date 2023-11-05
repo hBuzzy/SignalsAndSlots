@@ -41,8 +41,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QPointer<QLabel> indexHp = new QLabel;
   indexHp->setText("Уровень здоровья");
 
-  myhealthSlider = new QSlider(Qt::Horizontal);
-  myhealthSlider->setValue(player->GetMaxHealth());
+  myhealthSlider_ = new QSlider(Qt::Horizontal);
+  myhealthSlider_->setValue(player->GetMaxHealth());
   QPointer<QLabel> myhealthSliderCaption = new QLabel;
   myhealthSliderCaption->setNum(player->GetMaxHealth());
 
@@ -56,7 +56,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QGridLayout *widgetLayout = new QGridLayout;
 
   widgetLayout->addWidget(myhealthSliderCaption, 0, 0);
-  widgetLayout->addWidget(myhealthSlider, 0, 1);
+  widgetLayout->addWidget(myhealthSlider_, 0, 1);
   widgetLayout->addWidget(indexHp, 1, 0);
   widgetLayout->addWidget(healthBar, 1, 1);
   widgetLayout->addWidget(damageButton, 2, 0, 1, 2);
@@ -82,17 +82,17 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   connect(restoreButton, &QPushButton::clicked, enemy,&God::OnRestoreButtonClicked);
   connect(enemy, &God::MakeRestore, player, &Player::TakeRestore);
   connect(player, &Player::HealthChanged, healthBar, &QProgressBar::setValue);
-  connect(  myhealthSlider, &QSlider::valueChanged,
+  connect(  myhealthSlider_, &QSlider::valueChanged,
           [  myhealthSliderCaption](int value) {   myhealthSliderCaption->setText(QString("%1 HP ").arg(value)); }
   );
 
- connect(myhealthSlider, &QSlider::valueChanged, healthBar, [=](int value) {
+ connect(myhealthSlider_, &QSlider::valueChanged, healthBar, [=](int value) {
       healthBar->SetColor(healthBar->value(),value,kDangerStyle,kNormalStyle);
       myhealthSliderCaption->setNum(value);
   });
 
- connect(healthBar, &QProgressBar::valueChanged, myhealthSlider,[=](int value){
- healthBar->SetColor(value,myhealthSlider->value(),kDangerStyle,kNormalStyle);
+ connect(healthBar, &QProgressBar::valueChanged, myhealthSlider_,[=](int value){
+ healthBar->SetColor(value,myhealthSlider_->value(),kDangerStyle,kNormalStyle);
   });
 }
 

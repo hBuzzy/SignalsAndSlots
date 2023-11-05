@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 5.0.2, 2023-10-23T23:55:01. -->
+<!-- Written by QtCreator 5.0.2, 2023-11-06T00:38:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -240,9 +240,8 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">SignalsAndSlots2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/mefby/Downloads/SignalsAndSlots-31a4c4e3d6159375a4cfbc80355286b68cd0b104/SignalsAndSlots-31a4c4e3d6159375a4cfbc80355286b68cd0b104/SignalsAndSlots/SignalsAndSlots.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/mefby/Downloads/SignalsAndSlots-31a4c4e3d6159375a4cfbc80355286b68cd0b104/SignalsAndSlots-31a4c4e3d6159375a4cfbc80355286b68cd0b104/SignalsAndSlots/SignalsAndSlots.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/mefby/Downloads/SignalsAndSlots-SignalAndSlots/SignalsAndSlots-SignalAndSlots/SignalsAndSlots/SignalsAndSlots.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/mefby/Downloads/SignalsAndSlots-SignalAndSlots/SignalsAndSlots-SignalAndSlots/SignalsAndSlots/SignalsAndSlots.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
