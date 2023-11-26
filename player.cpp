@@ -15,4 +15,15 @@ void Player::TakeDamage(int damage) {
   emit HealthChanged(currentHealth_);
 }
 
+void Player::RecoveryHealth(int heal)
+{
+    if (currentHealth_ == 100) return;
+
+    currentHealth_ += heal;
+
+    if (currentHealth_ > 100) currentHealth_ = 100;
+
+    emit HealthChanged(currentHealth_);
+}
+
 int Player::GetMaxHealth() const { return maxHealth_; }
