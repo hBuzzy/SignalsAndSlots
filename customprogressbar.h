@@ -4,10 +4,10 @@
 #include <QProgressBar>
 #include <QSlider>
 
-class CustomProgressBar : public QProgressBar{
+class CustomProgressBar : public QProgressBar {
     Q_OBJECT
 
-    int currentThresh = 50;
+    int currentThreshold = 50;
 
 public:
     CustomProgressBar();
@@ -15,7 +15,6 @@ public:
 public slots:
     void ChangeColor();
     void SetValue(int);
-
 };
 
 #endif // CUSTOMPROGRESSBAR_H

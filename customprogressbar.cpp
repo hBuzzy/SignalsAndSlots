@@ -1,19 +1,20 @@
 #include "customprogressbar.h"
 
-CustomProgressBar::CustomProgressBar() : QProgressBar(){}
+CustomProgressBar::CustomProgressBar() : QProgressBar() {}
 
-void CustomProgressBar::ChangeColor(){
+void CustomProgressBar::ChangeColor() {
+    int dangerousValue = currentThreshold * 0.4;
 
-    if (value() < currentThresh and value() > currentThresh*0.4)
+    if (value() < currentThreshold and value() > dangerousValue)
         this->setStyleSheet("QProgressBar::chunk {background-color: yellow;}");
-    if (value() <= currentThresh*0.4)
+    if (value() <= dangerousValue)
         this->setStyleSheet("QProgressBar::chunk {background-color: red;}");
-    if (value() >= currentThresh)
+    if (value() >= currentThreshold)
         this->setStyleSheet("QProgressBar::chunk {background-color: light green;}");
 }
 
-void CustomProgressBar::SetValue(int val){
-    currentThresh = val;
+void CustomProgressBar::SetValue(int value) {
+    currentThreshold = value;
 }
 
 
