@@ -12,12 +12,17 @@ SOURCES += \
     enemy.cpp \
     main.cpp \
     player.cpp \
-    widget.cpp
+    widget.cpp \
+    heal.cpp \
+    customprogressbar.cpp
 
 HEADERS += \
     enemy.h \
     player.h \
-    widget.h
+    widget.h \
+    ../SignalsAndSlots/customprogressbar.h \
+    customprogressbar.h \
+    heal.h
 
 FORMS += \
     widget.ui

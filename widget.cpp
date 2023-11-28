@@ -3,24 +3,32 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPointer>
-#include <QProgressBar>
 #include <QPushButton>
 
 #include "enemy.h"
+#include "heal.h"
 #include "player.h"
 #include "ui_widget.h"
+#include "customprogressbar.h"
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->setupUi(this);
 
   Player *player = new Player(100);
   Enemy *enemy = new Enemy(10);
+  Heal *heal = new Heal(5);
 
-  QProgressBar *healthBar = new QProgressBar;
+  CustomProgressBar *healthBar = new CustomProgressBar;
   int minValue = 0;
   healthBar->setRange(minValue, player->GetMaxHealth());
   healthBar->setValue(player->GetMaxHealth());
   healthBar->setTextVisible(false);
+
+  QSlider *healthSlider = new QSlider(Qt::Horizontal, this);
+  healthSlider->setMinimum(25);
+  healthSlider->setMaximum(75);
+
+  QPointer<QLabel> changingColorLabel = new QLabel("25",healthSlider);
 
   QPointer<QLabel> healthBarCaption = new QLabel;
   healthBarCaption->setText("Полоска здоровья");
@@ -28,12 +36,18 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   QPointer<QPushButton> damageButton = new QPushButton;
   damageButton->setText("Нанести урон");
 
+  QPointer<QPushButton> healButton = new QPushButton;
+  healButton->setText("Подлечить");
+
   QWidget *widget = new QWidget;
   QGridLayout *widgetLayout = new QGridLayout;
 
-  widgetLayout->addWidget(healthBarCaption, 0, 0);
-  widgetLayout->addWidget(healthBar, 0, 1);
-  widgetLayout->addWidget(damageButton, 1, 0, 1, 2);
+  widgetLayout->addWidget(changingColorLabel, 0, 0);
+  widgetLayout->addWidget(healthSlider, 0, 1);
+  widgetLayout->addWidget(healthBarCaption, 1, 0);
+  widgetLayout->addWidget(healthBar, 1, 1);
+  widgetLayout->addWidget(damageButton, 2, 0, 1, 2);
+  widgetLayout->addWidget(healButton, 3, 0, 1, 2);
 
   widget->setLayout(widgetLayout);
 
@@ -51,10 +65,18 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   mainLayout->addWidget(widget);
   mainLayout->addItem(bottomSpacer);
 
+  connect(healthSlider,  &QSlider::valueChanged, changingColorLabel,
+          [changingColorLabel](int value){(changingColorLabel->setText(QString::number(value)));});
   connect(damageButton, &QPushButton::clicked, enemy,
           &Enemy::OnDamageButtonClicked);
   connect(enemy, &Enemy::MakeDamage, player, &Player::TakeDamage);
-  connect(player, &Player::HealthChanged, healthBar, &QProgressBar::setValue);
+  connect(healButton, &QPushButton::clicked, heal,
+          &Heal::OnHealButtonClicked);
+  connect(heal, &Heal::MakeHealPoint, player, &Player::TakeHeal);
+  connect(player, &Player::HealthChanged, healthBar, &CustomProgressBar::setValue);
+  connect(healthSlider, &QSlider::valueChanged, healthBar, &CustomProgressBar::ChangeCriticalValue);
+  connect(healthBar, &CustomProgressBar::valueChanged, healthBar, &CustomProgressBar::ChangeColor);
+
 }
 
 Widget::~Widget() { delete ui; }

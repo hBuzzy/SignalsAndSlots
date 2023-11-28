@@ -14,6 +14,7 @@ class Player : public QObject {
 
  public slots:
   void TakeDamage(int damage);
+  void TakeHeal(int heal);
 
  private:
   int maxHealth_;
